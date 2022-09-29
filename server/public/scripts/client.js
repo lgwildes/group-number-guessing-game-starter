@@ -6,7 +6,6 @@ function handleReady() {
 
   $('#guessForm').on('submit', addGuessData);
 
-  randomNumberGenerator();
 }
 
 let totalGuessCount = 0
@@ -15,25 +14,7 @@ function addGuessData(evt) {
   evt.preventDefault();
     console.log('in addGuessData 🤓');
 
-    // let playerOne = {
-    //   name: $('#lydiaInput').val()
-    // }
-    // //console.log('testing playerOne expect Lydia ', playerOne)
-
-    // let playerOneGuess = {
-    //   guess: $('#lydiaGuessInput').val()
-    // }
-    // //console.log('testing playerOneGuess expect 2 ', playerOneGuess)
-
-    // let playerTwo = {
-    //   name: $('#juanInput').val()
-    // }
-    // //console.log('testing playerTwo expect Juan ', playerTwo)
-
-    // let playerTwoGuess = {
-    //   guess: $('#juanGuessInput').val()
-    // }
-    // //console.log('testing playerTwoGuess expect 3 ', playerTwoGuess)
+   
 
     let guessForm = {
       lydiaInput: $('#lydiaInput').val(),
@@ -96,21 +77,21 @@ function loadGuesses() {
       });
 }
 
-function randomNumberGenerator() {
-  console.log('in randomNumberGenerator')
+// function randomNumberGenerator() {
+//   console.log('in randomNumberGenerator')
 
-  $.ajax({
-    url: '/randomNumber',
-    method: 'GET'
-  })
-  .then((response) => {
-    console.log('GET /randomNumber', response)
-  })
-  .catch((err) => {
-    console.log('GET /randomNumber error', err);
-    alert('Sorry, something went wrong!')
-  });
-}
+//   $.ajax({
+//     url: '/randomNumber',
+//     method: 'GET'
+//   })
+//   .then((response) => {
+//     console.log('GET /randomNumber', response)
+//   })
+//   .catch((err) => {
+//     console.log('GET /randomNumber error', err);
+//     alert('Sorry, something went wrong!')
+//   });
+// }
 
 function render() {
   console.log('In render guesses');

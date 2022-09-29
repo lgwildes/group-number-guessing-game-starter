@@ -3,7 +3,10 @@ const bodyParser = require('body-parser')
 const app = express();
 const PORT = 5000;
 
-let guessData = [];
+let guessData = [
+  //new object to send back to client!
+  
+];
 
 
 // This must be added before GET & POST routes.
@@ -17,15 +20,6 @@ function randomNumberGenerator(min, max) {
   return Math.floor(Math.random() * (1 + max - min) + min)
 
 }
-
-function compareNumbers() {
-  for (let guess of guessData)
-  
-  if (guess === getThatNumber) {
-    console.log('a veritable match!')
-  }
-}
-
 
 
 
@@ -41,10 +35,35 @@ app.get('/guesses', (req,res) => {
 app.post('/guesses', (req,res) => {
   console.log('Client made a guess! ❓', req.body);
 
-  //create new variable for client data
-  let newGuesses = req.body
-  //add that new variable to the guessData array 
-  guessData.push(newGuesses);
+guessData.push(req.body)
+console.log('testing guessData', guessData)
+
+  // function getThatNumber() {
+  //   let result = randomNumberGenerator(1,25)
+  //   return result
+  // }
+  
+  // let randomToCheck = {randomNumber: getThatNumber()}
+  // //create new variable for client data
+  // let newGuesses = req.body
+  
+  // function compareNumbers(num) {
+  //   for (let guess of newGuesses)
+    
+  //   if (guess === num) {
+  //     console.log('a veritable match!')
+  //   }
+  //   else {
+  //     console.log('womp womp')
+  //   }
+  // }
+
+  // compareNumbers(randomToCheck.randomNumber);
+
+  
+ 
+ 
+ 
   //send all guessData to client
   res.sendStatus(201);
 
@@ -52,32 +71,14 @@ app.post('/guesses', (req,res) => {
 
 });
 
-app.get('/randomNumber', (req,res) => {
-  console.log('in /randomNumber 📶')
+// app.get('/randomNumber', (req,res) => {
+//   console.log('in /randomNumber 📶')
   
-  function getThatNumber() {
-    let result = randomNumberGenerator(1,25)
-    return result
-  }
   
-  let randomToSend = {randomNumber: getThatNumber()}
   
-  res.send(randomToSend)
-})
+//   res.send(randomToSend)
+// })
 
-
-function helpME(guess, num) {
-  let lydiaGuess = req.body.lydiaGuessInput;
-  let juanGuess = req.body.juanGuessInput;
-  
-  if (lydiaGuess === getThatNumber) {
-    console.log('match for lydia!')
-
-    if(juanGuess === getThatNumber) {
-      console.log('match for Juan!')
-    }
-  }
-}
 
 
 
