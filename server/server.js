@@ -16,7 +16,7 @@ app.get('/guesses', (req,res) => {
   console.log('Client wants the guess data! ❓');
 
   res.send(guessData);
-})
+});
 
 //When a player submits their guess...
 app.post('/guesses', (req,res) => {
@@ -29,7 +29,7 @@ app.post('/guesses', (req,res) => {
   //send all guessData to client
   res.sendStatus(201);
 
-})
+});
 
 
 
