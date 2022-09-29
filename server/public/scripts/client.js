@@ -1,5 +1,6 @@
 $(document).ready(handleReady);
 
 function handleReady() {
-  console.log("jquery is loaded!")
+  console.log("jquery is loaded! 💪")
+  
 }
