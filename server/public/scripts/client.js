@@ -1,3 +1,4 @@
+
 $(document).ready(handleReady);
 
 function handleReady() {
@@ -5,7 +6,7 @@ function handleReady() {
 
   $('#guessForm').on('submit', addGuessData);
 
-  
+  randomNumberGenerator();
 }
 
 let totalGuessCount = 0
@@ -93,6 +94,22 @@ function loadGuesses() {
         console.log('GET /guesses error', err);
         alert('Sorry, something went wrong!');
       });
+}
+
+function randomNumberGenerator() {
+  console.log('in randomNumberGenerator')
+
+  $.ajax({
+    url: '/randomNumber',
+    method: 'GET'
+  })
+  .then((response) => {
+    console.log('GET /randomNumber', response)
+  })
+  .catch((err) => {
+    console.log('GET /randomNumber error', err);
+    alert('Sorry, something went wrong!')
+  });
 }
 
 function render() {
