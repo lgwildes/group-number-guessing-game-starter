@@ -1,13 +1,14 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const { response } = require('express');
 const app = express();
 const PORT = 5000;
 
-let guessData = [
-  //new object to send back to client!
-  
-];
+let guessData;
 
+let randomNumber = 0;
+
+console.log('test random number function', randomNumberGenerator())
 
 // This must be added before GET & POST routes.
 app.use(bodyParser.urlencoded({extended:true}))
@@ -16,70 +17,146 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.static('server/public'));
 
 //random number function 
-function randomNumberGenerator(min, max) {
-  return Math.floor(Math.random() * (1 + max - min) + min)
-
+function randomNumberGenerator() {
+  randomNumber = Math.floor(Math.random() * (1 + 25- 1) + 1)
+  return randomNumber
 }
 
-
-
 // GET & POST Routes go here
-app.get('/guesses', (req,res) => {
-  console.log('Client wants the guess data! 🍦');
 
-  res.send(guessData);
-  
-});
 
 //When a player submits their guess...
 app.post('/guesses', (req,res) => {
   console.log('Client made a guess! ❓', req.body);
 
-guessData.push(req.body)
-console.log('testing guessData', guessData)
+  // req.body.p1Result = "poop"
+  // req.body.p2Result = "poop2"
 
-  // function getThatNumber() {
-  //   let result = randomNumberGenerator(1,25)
-  //   return result
-  // }
-  
-  // let randomToCheck = {randomNumber: getThatNumber()}
-  // //create new variable for client data
-  // let newGuesses = req.body
-  
-  // function compareNumbers(num) {
-  //   for (let guess of newGuesses)
-    
-  //   if (guess === num) {
-  //     console.log('a veritable match!')
-  //   }
-  //   else {
-  //     console.log('womp womp')
-  //   }
-  // }
-
-  // compareNumbers(randomToCheck.randomNumber);
-
-  
- 
- 
+  // guessData.push(req.body);
+  guessData = req.body;
+  console.log('testing guessData', guessData);
+  compareNumbers(guessData);
+  // compareNumbers(guessData);
  
   //send all guessData to client
   res.sendStatus(201);
+
+  // compareNumbers();
+
 
   
 
 });
 
-// app.get('/randomNumber', (req,res) => {
-//   console.log('in /randomNumber 📶')
-  
-  
-  
-//   res.send(randomToSend)
-// })
+function compareNumbers() {
+  console.log('in compareNumbers');
+  let newGuessArray = Object.values(guessData)
+
+  results = [];
+
+  for (let guess of newGuessArray) {
+      //EQUALS
+  if (Number(guess) === randomNumber ) {
+    results.push("You Win!")
+  }
+  // GREATER THAN
+  if  (Number(guess) > randomNumber ) {
+    respresultsonse.push("Too High!")
+  }
+  // LESS THAN
+  if  (Number(guess) < randomNumber ) {
+    results.push("Too Low!");
+  }
+  }
+  console.log(results);
+}
+
+// function compareNumbers() {
+//   console.log('in compareNumbers');
+
+//   //EQUALS
+//   if (req.body.oneGuessInput === randomNumber ) {
+//     req.body.p1Result = "You Win!"
+//   }
+
+//   if (req.body.twoGuessInput === randomNumber ) {
+//     req.body.p2Result = "You Win!"
+//   }
+//   // GREATER THAN
+//   if  (req.body.oneGuessInput > randomNumber ) {
+//     req.body.p1Result = "Too High!"
+//   }
+
+//   if  (req.body.twoGuessInput > randomNumber ) {
+//     req.body.p2Result = "Too High!"
+//   }
+//   // LESS THAN
+//   if  (req.body.oneGuessInput < randomNumber ) {
+//     req.body.p1Result = "Too High!"
+//   }
+
+//   if  (req.body.twoGuessInput < randomNumber ) {
+//     req.body.p2Result = "Too High!"
+//   }
 
 
+
+  
+// }
+
+app.get('/guesses', (req,res) => {
+  console.log('Client wants guess results!',)
+
+  res.send(guessData);
+})
+
+
+
+
+
+
+
+
+
+
+
+
+// function compareNumbers() {
+//   // let compareArray = Object.values(guessData);
+
+//   // console.log('testing compareArray', compareArray);
+
+//   results = [];
+
+//   // if (req.body.oneGuessInput === randomNumber){
+//   //       results.push('You Win Player One!');
+    
+  //   if (req.body.twoGuessInput === randomNumber) {
+  //     results.push('You Win Player Two!');
+  //   }
+  //   else {
+  //     results.push('womp womp')
+  //   }
+  // } 
+
+
+
+  // for (let guess of compareArray) {
+  //   if (Number(guess) === randomNumber){
+  //     results.push('You Win!');
+  //     console.log('testing for a guess', guess)
+  //   }
+  //   else if (Number(guess) > randomNumber) {
+  //     results.push('Too High!');
+  //   }
+  //   else if (Number(guess) < randomNumber) {
+  //     results.push('Too Low!')
+  //   }
+  // }
+
+  // console.log('show results', results)
+  
+// }
 
 
 app.listen(PORT, () => {

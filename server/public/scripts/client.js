@@ -1,11 +1,15 @@
 
 $(document).ready(handleReady);
 
+let guessData = [];
+
 function handleReady() {
   console.log("jquery is loaded! 💪")
 
   $('#guessForm').on('submit', addGuessData);
 
+  loadData();
+  render();
 }
 
 let totalGuessCount = 0
@@ -17,10 +21,8 @@ function addGuessData(evt) {
    
 
     let guessForm = {
-      lydiaInput: $('#lydiaInput').val(),
-      lydiaGuessInput: $('#lydiaGuessInput').val(),
-      juanInput: $('#juanInput').val(),
-      juanGuessInput: $('#juanGuessInput').val()
+      oneGuessInput: $('#oneGuessInput').val(),
+      twoGuessInput: $('#twoGuessInput').val()
     };
 
     console.log(guessForm);
@@ -33,75 +35,75 @@ function addGuessData(evt) {
       .then((response) => {
         console.log('POST /guesses response', response);
 
-        //loadGuesses();
-
-        $('#tableBody').append(`
-        <tr>
-          <td>${guessForm.lydiaInput}</td>
-          <td>${guessForm.lydiaGuessInput}</td>
-          <td>details here TODO</td>
-        </tr>
-        <tr>
-          <td>${guessForm.juanInput}</td>
-          <td>${guessForm.juanGuessInput}</td>
-          <td>details here TODO</td>
-        </tr>
-        
-        `)
-
+        loadData();
        
       })
       .catch((err) => {
         console.log('POST error', err);
       });
 
-      render()
+      // render()
 
 }
 
-function loadGuesses() {
-  console.log('load guess!');
+function loadData() {
+  
+  console.log('in loadData')
 
-  $.ajax({
-    url: '/guesses',
-    method: 'GET'
-  })
-    .then((response) => {
-      console.log('GET guesses', response);
-
-      render();
+    $.ajax({
+      url:'/guesses',
+      method: 'GET'
+      
     })
+      .then((response) => {
+        console.log('in /GET', response);
+        guessData = response;
+        render(); 
+      })
       .catch((err) => {
-        console.log('GET /guesses error', err);
-        alert('Sorry, something went wrong!');
-      });
+        console.log('Oops there was an error!', err);
+      })
 }
 
-// function randomNumberGenerator() {
-//   console.log('in randomNumberGenerator')
 
-//   $.ajax({
-//     url: '/randomNumber',
-//     method: 'GET'
-//   })
-//   .then((response) => {
-//     console.log('GET /randomNumber', response)
-//   })
-//   .catch((err) => {
-//     console.log('GET /randomNumber error', err);
-//     alert('Sorry, something went wrong!')
-//   });
+
+
+// function render() {
+//   console.log('In render guesses');
+//   totalGuessCount += 2;
+//   $('#guessCounter').empty();
+//   $('#guessCounter').append(`
+//   Total Guess Count: ${totalGuessCount}
+//   `);
+
+//   console.log('total guess count', totalGuessCount);
+
 // }
 
 function render() {
-  console.log('In render guesses');
-  totalGuessCount += 2;
+  console.log('Render is working!');
+  totalGuessCount = guessData.length
   $('#guessCounter').empty();
   $('#guessCounter').append(`
   Total Guess Count: ${totalGuessCount}
   `);
 
-  console.log('total guess count', totalGuessCount);
+  $('#tableBody').empty();
+  for (let guess of guessData) {
+    $('#tableBody').append(`
+  <tr>
+    <td>Player One</td>
+    <td>${guess.oneGuessInput}</td>
+    <td>${guess.p1Result}</td>
+  </tr>
+  <tr>
+    <td>Player Two</td>
+    <td>${guess.twoGuessInput}</td>
+    <td>${guess.p2Result}</td>
+  </tr>
 
+  `)
+
+  }
+    
 }
-
